@@ -1,0 +1,132 @@
+================================================================================
+effects
+================================================================================
+
+pub fn sync(net: Net) -> Bool uses net.dial {
+  true
+}
+
+fn run(f: fn() -> Int uses clock) -> Int uses (clock, net) { f() }
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier))))
+    (qualified_type
+      (identifier))
+    (uses_clause
+      (effect_list
+        (effect
+          (identifier)
+          (identifier))))
+    (block
+      (boolean_literal)))
+  (function_declaration
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (fn_type
+          (qualified_type
+            (identifier))
+          (effect
+            (identifier)))))
+    (qualified_type
+      (identifier))
+    (uses_clause
+      (effect_list
+        (effect
+          (identifier))
+        (effect
+          (identifier))))
+    (block
+      (call_expression
+        (identifier)
+        (arguments)))))
+
+================================================================================
+scope and select
+================================================================================
+
+fn f() {
+  scope s {
+    s.spawn(fn() { work() })
+  }
+  select {
+    v = ch => handle(v)
+    after 1s => timeout()
+  }
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (scope_expression
+        (identifier)
+        (identifier)
+        (block
+          (call_expression
+            (field_expression
+              (identifier)
+              (identifier))
+            (arguments
+              (argument
+                (function_literal
+                  (block
+                    (call_expression
+                      (identifier)
+                      (arguments)))))))))
+      (select_expression
+        (select_arm
+          (identifier)
+          (identifier)
+          (call_expression
+            (identifier)
+            (arguments
+              (argument
+                (identifier)))))
+        (select_arm
+          (duration_literal)
+          (call_expression
+            (identifier)
+            (arguments)))))))
+
+================================================================================
+scope as a name
+================================================================================
+
+fn f(scope: Str) -> Str {
+  let a = scope
+  "scope=${scope}"
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier))))
+    (qualified_type
+      (identifier))
+    (block
+      (let_statement
+        (identifier)
+        (identifier))
+      (string
+        (string_content)
+        (interpolation
+          (identifier))))))

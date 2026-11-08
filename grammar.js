@@ -170,15 +170,8 @@ module.exports = grammar({
     [$.labeled_statement, $._primary],
     [$._type_name, $._primary],
     [$.block, $.map_literal],
-    [$.parenthesized_expression, $.tuple_expression, $.unit_expression],
     [$._primary, $._pattern_primary],
-    [$.struct_literal, $._type_name],
-    [$._type_name, $.identifier],
-    [$.field_expression, $._type_name],
     [$._pattern_primary, $._type_name],
-    [$.subscript, $.fn_type],
-    [$._expr, $.subscript_item],
-    [$.function_literal, $.fn_type],
   ],
 
   rules: {

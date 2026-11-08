@@ -1,3 +1,10 @@
 node_modules/
 *.bak
 build/
+*.a
+*.dylib
+*.so
+*.pc
+*.o
+.build/
+target/

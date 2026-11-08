@@ -1,0 +1,90 @@
+================================================================================
+tests
+================================================================================
+
+test "adds" {
+  expect(1 + 1) == 2
+}
+
+test "with seed" seed 7 uses (clock) {
+  expect(true)
+}
+
+---
+
+(source_file
+  (test_declaration
+    (string
+      (string_content))
+    (block
+      (binary_expression
+        (call_expression
+          (identifier)
+          (arguments
+            (argument
+              (binary_expression
+                (int_literal)
+                (int_literal)))))
+        (int_literal))))
+  (test_declaration
+    (string
+      (string_content))
+    (int_literal)
+    (uses_clause
+      (effect_list
+        (effect
+          (identifier))))
+    (block
+      (call_expression
+        (identifier)
+        (arguments
+          (argument
+            (boolean_literal)))))))
+
+================================================================================
+contracts
+================================================================================
+
+pub fn div(a: Int, b: Int) -> Int
+  requires b != 0 else fault("zero")
+  ensures result * b <= a
+{
+  a / b
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier)))
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier))))
+    (qualified_type
+      (identifier))
+    (requires_clause
+      (binary_expression
+        (identifier)
+        (int_literal))
+      (call_expression_ns
+        (identifier)
+        (arguments
+          (argument
+            (string
+              (string_content))))))
+    (ensures_clause
+      (binary_expression
+        (binary_expression
+          (identifier)
+          (identifier))
+        (identifier)))
+    (block
+      (binary_expression
+        (identifier)
+        (identifier)))))

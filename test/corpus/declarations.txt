@@ -1,0 +1,347 @@
+================================================================================
+function with clauses
+================================================================================
+
+/// Returns the user with the given id.
+pub fn fetch_user(db: Db, id: Int) -> User ! LoadErr
+  uses net
+  requires id > 0
+{
+  let row = db.query_one("select 1", id)?
+  row
+}
+
+---
+
+(source_file
+  (doc_comment)
+  (function_declaration
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier)))
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier))))
+    (qualified_type
+      (identifier))
+    (error_spec
+      (qualified_type
+        (identifier)))
+    (uses_clause
+      (effect_list
+        (effect
+          (identifier))))
+    (requires_clause
+      (binary_expression
+        (identifier)
+        (int_literal)))
+    (block
+      (let_statement
+        (identifier)
+        (try_expression
+          (call_expression
+            (field_expression
+              (identifier)
+              (identifier))
+            (arguments
+              (argument
+                (string
+                  (string_content)))
+              (argument
+                (identifier))))))
+      (identifier))))
+
+================================================================================
+methods
+================================================================================
+
+fn (u: User) display_name() -> Str { u.name }
+
+pub fn (var a: Account) deposit(amt: Money) requires amt > 0 {
+  a.balance += amt
+}
+
+---
+
+(source_file
+  (function_declaration
+    (receiver
+      (identifier)
+      (qualified_type
+        (identifier)))
+    (identifier)
+    (parameters)
+    (qualified_type
+      (identifier))
+    (block
+      (field_expression
+        (identifier)
+        (identifier))))
+  (function_declaration
+    (receiver
+      (identifier)
+      (qualified_type
+        (identifier)))
+    (identifier)
+    (parameters
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier))))
+    (requires_clause
+      (binary_expression
+        (identifier)
+        (int_literal)))
+    (block
+      (assignment
+        (field_expression
+          (identifier)
+          (identifier))
+        (identifier)))))
+
+================================================================================
+generic function
+================================================================================
+
+fn first[T](xs: List[T]) -> T? {
+  xs.get(0)
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (identifier)))
+    (parameters
+      (parameter
+        (identifier)
+        (qualified_type
+          (identifier)
+          (type_arguments
+            (qualified_type
+              (identifier))))))
+    (optional_type
+      (qualified_type
+        (identifier)))
+    (block
+      (call_expression
+        (field_expression
+          (identifier)
+          (identifier))
+        (arguments
+          (argument
+            (int_literal)))))))
+
+================================================================================
+struct with derive and invariant
+================================================================================
+
+struct Account {
+  pub id: Int
+  balance: Int = 0
+  kind as "type": Str
+}
+invariant balance >= 0
+derive Json, Eq
+
+---
+
+(source_file
+  (struct_declaration
+    (identifier)
+    (field_declaration
+      (identifier)
+      (qualified_type
+        (identifier)))
+    (field_declaration
+      (identifier)
+      (qualified_type
+        (identifier))
+      (int_literal))
+    (field_declaration
+      (identifier)
+      (string
+        (string_content))
+      (qualified_type
+        (identifier)))
+    (binary_expression
+      (identifier)
+      (int_literal))
+    (derive_clause
+      (derive_item
+        (identifier))
+      (derive_item
+        (identifier)))))
+
+================================================================================
+enum
+================================================================================
+
+enum Shape {
+  Circle(r: Float)
+  Rect(w: Float, h: Float)
+  Empty
+} derive Eq
+
+enum Level: Str {
+  Debug = "debug"
+  Info = "info"
+}
+
+---
+
+(source_file
+  (enum_declaration
+    (identifier)
+    (variant
+      (identifier)
+      (variant_field
+        (identifier)
+        (qualified_type
+          (identifier))))
+    (variant
+      (identifier)
+      (variant_field
+        (identifier)
+        (qualified_type
+          (identifier)))
+      (variant_field
+        (identifier)
+        (qualified_type
+          (identifier))))
+    (variant
+      (identifier))
+    (derive_clause
+      (derive_item
+        (identifier))))
+  (enum_declaration
+    (identifier)
+    (qualified_type
+      (identifier))
+    (variant
+      (identifier)
+      (string
+        (string_content)))
+    (variant
+      (identifier)
+      (string
+        (string_content)))))
+
+================================================================================
+interface
+================================================================================
+
+interface Shape {
+  fn area(self) -> Float
+  fn name(self) -> Str
+}
+
+---
+
+(source_file
+  (interface_declaration
+    (identifier)
+    (function_signature
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)))
+      (qualified_type
+        (identifier)))
+    (function_signature
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)))
+      (qualified_type
+        (identifier)))))
+
+================================================================================
+type aliases and newtypes
+================================================================================
+
+type Id = Int
+type Meters struct(Float) derive Eq
+
+---
+
+(source_file
+  (type_declaration
+    (identifier)
+    (qualified_type
+      (identifier)))
+  (type_declaration
+    (identifier)
+    (qualified_type
+      (identifier))
+    (derive_clause
+      (derive_item
+        (identifier)))))
+
+================================================================================
+constants
+================================================================================
+
+const MAX_USERS = 1000
+pub const DEFAULT = Config{port: 8080}
+const PAGE: Str = embed("static/index.html")
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (int_literal))
+  (const_declaration
+    (identifier)
+    (struct_literal
+      (identifier)
+      (field_list_literal
+        (field_initializer
+          (identifier)
+          (int_literal)))))
+  (const_declaration
+    (identifier)
+    (qualified_type
+      (identifier))
+    (call_expression
+      (identifier)
+      (arguments
+        (argument
+          (string
+            (string_content)))))))
+
+================================================================================
+use declarations
+================================================================================
+
+use std/http
+use github.com/acme/billing as bill
+use go "net/url" as neturl
+use c "zlib.h" link "z" as zlib uses none
+
+---
+
+(source_file
+  (use_declaration
+    (import_path))
+  (use_declaration
+    (import_path)
+    (identifier))
+  (use_declaration
+    (string
+      (string_content))
+    (identifier))
+  (use_declaration
+    (string
+      (string_content))
+    (string
+      (string_content))
+    (identifier)))

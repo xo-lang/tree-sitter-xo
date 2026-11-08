@@ -1,0 +1,20 @@
+/// Doc comment
+// <- comment.documentation
+pub fn fetch(db: Db, id: Int) -> Int uses net {
+// <- keyword
+//  ^ keyword
+//     ^ function
+//            ^ variable.parameter
+//               ^ type
+  let total = 0
+  // <- keyword
+  total += id * 2 + MAX
+  //              ^ operator
+  //                ^ constant
+  "id=${id} ok"
+  // <- string
+  //  ^ punctuation.special
+  if total > 0 { return Some(1) }
+  // <- keyword.control
+  //                    ^ constructor
+}

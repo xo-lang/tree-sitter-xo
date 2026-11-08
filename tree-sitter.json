@@ -18,8 +18,13 @@
     "license": "MIT",
     "description": "Xo grammar for tree-sitter",
     "links": {
-      "repository": "https://github.com/tree-sitter/tree-sitter-xo"
-    }
+      "repository": "https://github.com/xo-lang/tree-sitter-xo"
+    },
+    "authors": [
+      {
+        "name": "Joseph Spurrier"
+      }
+    ]
   },
   "bindings": {
     "c": true,

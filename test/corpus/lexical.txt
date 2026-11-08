@@ -1,0 +1,275 @@
+================================================================================
+comments and doc comments
+================================================================================
+
+// line comment
+/// doc comment, attaches to the next declaration
+pub fn f() {}
+
+---
+
+(source_file
+  (comment)
+  (doc_comment)
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block)))
+
+================================================================================
+number literals
+================================================================================
+
+fn f() {
+  let a = 42
+  let b = 1_000_000
+  let c = 0xff
+  let d = 0b1010
+  let e = 0o755
+  let f = 3.14
+  let g = 1e-9
+  let h = 250ms
+  let i = 5s
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (let_statement
+        (identifier)
+        (int_literal))
+      (let_statement
+        (identifier)
+        (int_literal))
+      (let_statement
+        (identifier)
+        (int_literal))
+      (let_statement
+        (identifier)
+        (int_literal))
+      (let_statement
+        (identifier)
+        (int_literal))
+      (let_statement
+        (identifier)
+        (float_literal))
+      (let_statement
+        (identifier)
+        (float_literal))
+      (let_statement
+        (identifier)
+        (duration_literal))
+      (let_statement
+        (identifier)
+        (duration_literal)))))
+
+================================================================================
+runes and bools
+================================================================================
+
+fn f() {
+  let a = 'a'
+  let b = '\n'
+  let c = '\u{1F600}'
+  let d = true
+  let e = false
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (let_statement
+        (identifier)
+        (rune_literal))
+      (let_statement
+        (identifier)
+        (rune_literal))
+      (let_statement
+        (identifier)
+        (rune_literal))
+      (let_statement
+        (identifier)
+        (boolean_literal))
+      (let_statement
+        (identifier)
+        (boolean_literal)))))
+
+================================================================================
+strings and interpolation
+================================================================================
+
+fn f() {
+  let a = "hello ${name}, you have ${count + 1} items"
+  let b = "GET /users/{id}"
+  let c = "price: \$5"
+  let d = "${xs:?} and ${a + b:?}"
+  let e = "cost $5"
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (let_statement
+        (identifier)
+        (string
+          (string_content)
+          (interpolation
+            (identifier))
+          (string_content)
+          (interpolation
+            (binary_expression
+              (identifier)
+              (int_literal)))
+          (string_content)))
+      (let_statement
+        (identifier)
+        (string
+          (string_content)))
+      (let_statement
+        (identifier)
+        (string
+          (string_content)
+          (escape_sequence)
+          (string_content)))
+      (let_statement
+        (identifier)
+        (string
+          (interpolation
+            (identifier))
+          (string_content)
+          (interpolation
+            (binary_expression
+              (identifier)
+              (identifier)))))
+      (let_statement
+        (identifier)
+        (string
+          (string_content)
+          (string_content)
+          (string_content))))))
+
+================================================================================
+raw strings
+================================================================================
+
+fn f() {
+  let a = r"raw: no escapes \d+"
+  let b = r#"raw, may contain "quotes": {"a": 1}"#
+  let c = r"""
+    multi line raw
+  """
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (let_statement
+        (identifier)
+        (raw_string))
+      (let_statement
+        (identifier)
+        (raw_string))
+      (let_statement
+        (identifier)
+        (raw_string)))))
+
+================================================================================
+multi line and bytes strings
+================================================================================
+
+fn f() {
+  let a = """
+    multi line ${x}
+    with "quotes" inside
+  """
+  let b = b"raw bytes\x00"
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (let_statement
+        (identifier)
+        (multiline_string
+          (string_content)
+          (interpolation
+            (identifier))
+          (string_content)))
+      (let_statement
+        (identifier)
+        (bytes_literal
+          (bytes_content)
+          (escape_sequence))))))
+
+================================================================================
+collections
+================================================================================
+
+fn f() {
+  let a = [1, 2, 3]
+  let b = []
+  let c = {"a": 1, "b": 2}
+  let d = {}
+  let e = #{1, 2, 3}
+  let f = #{}
+}
+
+---
+
+(source_file
+  (function_declaration
+    (identifier)
+    (parameters)
+    (block
+      (let_statement
+        (identifier)
+        (list_literal
+          (int_literal)
+          (int_literal)
+          (int_literal)))
+      (let_statement
+        (identifier)
+        (list_literal))
+      (let_statement
+        (identifier)
+        (map_literal
+          (map_entry
+            (string
+              (string_content))
+            (int_literal))
+          (map_entry
+            (string
+              (string_content))
+            (int_literal))))
+      (let_statement
+        (identifier)
+        (block))
+      (let_statement
+        (identifier)
+        (set_literal
+          (int_literal)
+          (int_literal)
+          (int_literal)))
+      (let_statement
+        (identifier)
+        (set_literal)))))
