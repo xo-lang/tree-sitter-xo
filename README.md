@@ -34,7 +34,7 @@ npx tree-sitter test             # corpus (test/corpus) and highlight assertions
 scripts/parse-repo.sh ../xo      # every .xo file of an Xo checkout: expect no ERROR nodes
 ```
 
-On the Xo repository at 2026-11-08, `scripts/parse-repo.sh` parses 2487 of 2487 files with no ERROR node. The files left
+On the Xo repository at 2026-11-08, `scripts/parse-repo.sh` parses 2488 of 2488 files with no ERROR node. The files left
 out are the diagnostic tests (`test/errorcheck`) and the foreign-syntax habit tests (`testdata/habits`), which are invalid
 on purpose.
 
