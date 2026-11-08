@@ -3,20 +3,33 @@
   "version": "0.1.0",
   "description": "Xo grammar for tree-sitter",
   "license": "MIT",
+  "author": "Joseph Spurrier",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xo-lang/tree-sitter-xo.git"
+  },
+  "homepage": "https://github.com/xo-lang/tree-sitter-xo#readme",
+  "bugs": {
+    "url": "https://github.com/xo-lang/tree-sitter-xo/issues"
+  },
   "main": "bindings/node",
   "types": "bindings/node",
   "keywords": [
-    "parser",
+    "incremental",
+    "parsing",
     "tree-sitter",
     "xo"
   ],
   "files": [
     "grammar.js",
+    "tree-sitter.json",
     "binding.gyp",
     "prebuilds/**",
     "bindings/node/*",
     "queries/*",
-    "src/**"
+    "src/*.c",
+    "src/*.json",
+    "src/tree_sitter/*.h"
   ],
   "dependencies": {
     "node-addon-api": "^8.0.0",
@@ -35,6 +48,7 @@
     "tree-sitter-cli": "^0.24.7"
   },
   "scripts": {
+    "install": "node-gyp-build",
     "test": "tree-sitter test",
     "build": "tree-sitter generate"
   }
