@@ -5,7 +5,8 @@ specification (`spec/core.md`: lexical structure, types, declarations, statement
 tests and contracts). It gives Neovim, Helix, Zed and any other tree-sitter host syntax highlighting, folding,
 indentation and structural selection for `.xo` files.
 
-Status: not published. The repository is local until the Xo owner approves a public repository, an npm package and a crate.
+Packages: `npm install @xo-lang/tree-sitter-xo` (Node bindings; npm refused the unscoped name as too close to
+`tree-sitter-go`) and the Rust crate `tree-sitter-xo`.
 
 ## What it covers
 

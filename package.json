@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-xo",
+  "name": "@xo-lang/tree-sitter-xo",
   "version": "0.1.0",
   "description": "Xo grammar for tree-sitter",
   "license": "MIT",
