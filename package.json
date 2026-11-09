@@ -1,6 +1,6 @@
 {
   "name": "@xo-lang/tree-sitter-xo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Xo grammar for tree-sitter",
   "license": "MIT",
   "author": "Joseph Spurrier",
@@ -39,7 +39,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.0"
+    "tree-sitter": "^0.25.0"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "prebuildify": "^6.0.0",
-    "tree-sitter-cli": "^0.24.7"
+    "tree-sitter-cli": "^0.27.2"
   },
   "scripts": {
     "install": "node-gyp-build",

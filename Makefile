@@ -4,7 +4,7 @@ endif
 
 LANGUAGE_NAME := tree-sitter-xo
 HOMEPAGE_URL := https://github.com/xo-lang/tree-sitter-xo
-VERSION := 0.1.0
+VERSION := 0.1.1
 
 # repository
 SRC_DIR := src
