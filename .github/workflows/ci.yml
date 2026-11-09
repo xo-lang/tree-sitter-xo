@@ -23,8 +23,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      # the CLI that generated src/parser.c (package.json's
+      # tree-sitter-cli), so the action's regenerate check matches it
       - name: Set up tree-sitter
         uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.24.7
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v3
@@ -83,6 +87,7 @@ jobs:
         uses: tree-sitter/setup-action@v2
         with:
           install-lib: false
+          tree-sitter-ref: v0.24.7
 
       - name: Build parser
         run: tree-sitter build
@@ -91,4 +96,4 @@ jobs:
         run: curl -fL https://github.com/ribru17/ts_query_ls/releases/latest/download/ts_query_ls-x86_64-unknown-linux-gnu.tar.gz | tar -xz
 
       - name: Check queries
-        run: ./ts_query_ls check -f queries/
+        run: ./ts_query_ls check queries/
