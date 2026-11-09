@@ -35,6 +35,9 @@
     "node-addon-api": "^8.0.0",
     "node-gyp-build": "^4.8.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "tree-sitter": "^0.21.0"
   },
