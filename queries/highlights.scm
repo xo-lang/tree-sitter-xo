@@ -1,4 +1,4 @@
-; Highlights for Xo (spec/core.md). Capture names follow nvim-treesitter, Helix and Zed.
+; Highlights for Xo (spec/core.md). Capture names follow nvim-treesitter (its valid_captures list); Helix and Zed fall back by prefix.
 
 ; ---- comments ----
 (comment) @comment
@@ -106,13 +106,22 @@
 
 ; ---- keywords ----
 [
-  "fn" "let" "var" "const" "struct" "enum" "interface" "type" "test" "use" "pub"
+  "let" "var" "const" "test" "defer" "select" "after"
+  "requires" "ensures" "invariant" "derive" "with" "bound" "seed" "link"
 ] @keyword
 
-[
-  "if" "else" "match" "for" "while" "in" "break" "continue" "return" "defer" "select" "after"
-] @keyword.control
+"fn" @keyword.function
 
-[
-  "requires" "ensures" "invariant" "derive" "with" "is" "as" "bound" "seed" "link"
-] @keyword
+["struct" "enum" "interface" "type"] @keyword.type
+
+"pub" @keyword.modifier
+
+"use" @keyword.import
+
+["if" "else" "match"] @keyword.conditional
+
+["for" "while" "break" "continue"] @keyword.repeat
+
+"return" @keyword.return
+
+["in" "is" "as"] @keyword.operator

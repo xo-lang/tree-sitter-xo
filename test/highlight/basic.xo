@@ -1,8 +1,8 @@
 /// Doc comment
 // <- comment.documentation
 pub fn fetch(db: Db, id: Int) -> Int uses net {
-// <- keyword
-//  ^ keyword
+// <- keyword.modifier
+//  ^ keyword.function
 //     ^ function
 //            ^ variable.parameter
 //               ^ type
@@ -15,6 +15,7 @@ pub fn fetch(db: Db, id: Int) -> Int uses net {
   // <- string
   //  ^ punctuation.special
   if total > 0 { return Some(1) }
-  // <- keyword.control
+  // <- keyword.conditional
+  //             ^ keyword.return
   //                    ^ constructor
 }
