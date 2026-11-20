@@ -1546,6 +1546,30 @@
     }
   },
   {
+    "type": "c_export_clause",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "multiline_string",
+            "named": true
+          },
+          {
+            "type": "raw_string",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "call_expression",
     "named": true,
     "fields": {
@@ -3040,6 +3064,10 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "int_literal",
           "named": true
         },
         {
@@ -5244,6 +5272,10 @@
       "required": false,
       "types": [
         {
+          "type": "c_export_clause",
+          "named": true
+        },
+        {
           "type": "ensures_clause",
           "named": true
         },
@@ -5401,6 +5433,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "c_export_clause",
+          "named": true
+        },
         {
           "type": "ensures_clause",
           "named": true
@@ -6238,7 +6274,7 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -6263,6 +6299,10 @@
         },
         {
           "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "format_spec",
           "named": true
         },
         {
@@ -13089,7 +13129,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "effect_list",
@@ -14816,6 +14856,10 @@
     "named": false
   },
   {
+    "type": "format_spec",
+    "named": true
+  },
+  {
     "type": "go",
     "named": false
   },
@@ -14872,6 +14916,10 @@
     "named": false
   },
   {
+    "type": "open",
+    "named": false
+  },
+  {
     "type": "pub",
     "named": false
   },
@@ -14897,6 +14945,10 @@
   },
   {
     "type": "select",
+    "named": false
+  },
+  {
+    "type": "server",
     "named": false
   },
   {

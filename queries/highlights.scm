@@ -88,6 +88,8 @@
 (escape_sequence) @string.escape
 (interpolation "${" @punctuation.special "}" @punctuation.special)
 (interpolation ":?" @punctuation.special)
+(interpolation ":" @punctuation.special)
+(format_spec) @string.special
 (rune_literal) @character
 (int_literal) @number
 (float_literal) @number.float
@@ -114,7 +116,9 @@
 
 ["struct" "enum" "interface" "type"] @keyword.type
 
-"pub" @keyword.modifier
+["pub" "open" "server"] @keyword.modifier
+
+(c_export_clause "c" @keyword.modifier)
 
 "use" @keyword.import
 

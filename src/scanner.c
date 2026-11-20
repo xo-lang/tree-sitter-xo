@@ -10,6 +10,7 @@ enum TokenType {
   TERMINATOR,
   STMT_TERMINATOR,
   RAW_STRING,
+  BYTES_NUL,
 };
 
 void *tree_sitter_xo_external_scanner_create(void) { return NULL; }
@@ -198,6 +199,16 @@ bool tree_sitter_xo_external_scanner_scan(void *payload, TSLexer *lexer, const b
   (void)payload;
   bool term = valid_symbols[TERMINATOR] || valid_symbols[STMT_TERMINATOR];
   bool in_block = valid_symbols[STMT_TERMINATOR];
+  // raw NUL bytes inside b"...": the internal lexer reads a lookahead of 0
+  // as the end of input, so bytes_content cannot take them (#543)
+  if (valid_symbols[BYTES_NUL] && !valid_symbols[RAW_STRING] && lexer->lookahead == 0 && !lexer->eof(lexer)) {
+    while (lexer->lookahead == 0 && !lexer->eof(lexer)) {
+      advance(lexer);
+    }
+    lexer->result_symbol = BYTES_NUL;
+    lexer->mark_end(lexer);
+    return true;
+  }
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r' || lexer->lookahead == '\f') {
     skip(lexer);
   }

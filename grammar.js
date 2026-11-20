@@ -128,7 +128,7 @@ module.exports = grammar({
 
   word: ($) => $.identifier,
 
-  externals: ($) => [$._terminator, $._stmt_terminator, $.raw_string],
+  externals: ($) => [$._terminator, $._stmt_terminator, $.raw_string, $._bytes_nul],
 
   extras: ($) => [/\s/, $.comment, $.doc_comment],
 
@@ -204,7 +204,7 @@ module.exports = grammar({
       choice(
         seq(optional('pub'), $.function_declaration),
         seq(optional('pub'), $.struct_declaration),
-        seq(optional('pub'), $.enum_declaration),
+        seq(optional('pub'), optional('open'), $.enum_declaration),
         seq(optional('pub'), $.interface_declaration),
         seq(optional('pub'), $.type_declaration),
         seq(optional('pub'), $.const_declaration),
@@ -251,8 +251,9 @@ module.exports = grammar({
 
     error_spec: ($) => seq('!', optional($._type)),
 
-    _fn_clause: ($) => choice($.uses_clause, $.requires_clause, $.ensures_clause),
-    uses_clause: ($) => seq('uses', choice($.effect_list, seq('(', $.effect_list, ')'))),
+    _fn_clause: ($) => choice($.uses_clause, $.requires_clause, $.ensures_clause, $.c_export_clause),
+    uses_clause: ($) => seq('uses', choice($.effect_list, seq('(', optional($.effect_list), ')'))),
+    c_export_clause: ($) => seq('as', 'c', field('name', $._string)),
     requires_clause: ($) => seq('requires', optional(seq('(', 'debug', ')')), field('condition', $._expr_ns), optional(seq('else', field('otherwise', $._expr_ns)))),
     ensures_clause: ($) => seq('ensures', optional(seq('(', 'debug', ')')), field('condition', $._expr_ns)),
 
@@ -274,7 +275,7 @@ module.exports = grammar({
     field_declaration: ($) =>
       seq(
         optional('pub'),
-        field('name', $.identifier),
+        choice(seq('server', field('name', $.identifier)), field('name', choice($.identifier, alias('server', $.identifier)))),
         repeat(seq(choice('as', $.identifier), field('tag', $._string))),
         ':',
         field('type', $._type),
@@ -283,7 +284,7 @@ module.exports = grammar({
 
     derive_clause: ($) => seq('derive', commaSep1($.derive_item)),
     derive_item: ($) => seq($._type_name, optional(seq('(', commaSep($.derive_arg), ')'))),
-    derive_arg: ($) => seq($.identifier, ':', choice($.identifier, $._string)),
+    derive_arg: ($) => seq($.identifier, ':', choice(seq($.identifier, optional(seq('.', $.identifier)), optional('?')), $.int_literal, $._string)),
 
     enum_declaration: ($) =>
       seq(
@@ -588,14 +589,16 @@ module.exports = grammar({
         repeat(choice(alias($._ml_content, $.string_content), $.escape_sequence, $.interpolation, alias(token.immediate('$'), $.string_content))),
         token.immediate('"""'),
       ),
-    bytes_literal: ($) => seq('b"', repeat(choice($.bytes_content, $.escape_sequence)), token.immediate('"')),
+    bytes_literal: ($) => seq('b"', repeat(choice($.bytes_content, alias($._bytes_nul, $.bytes_content), $.escape_sequence)), token.immediate('"')),
 
     string_content: () => token.immediate(prec(1, /[^"\\$]+/)),
     _ml_content: () => token.immediate(prec(1, /([^"\\$]|"[^"]|""[^"])+/)),
     bytes_content: () => token.immediate(prec(1, /[^"\\]+/)),
     escape_sequence: () =>
       token.immediate(seq('\\', choice(/[nrt0\\"'$]/, /x[0-9a-fA-F]{2}/, /u\{[0-9a-fA-F]+\}/))),
-    interpolation: ($) => seq(token.immediate('${'), $._expr, optional(':?'), '}'),
+    interpolation: ($) => seq(token.immediate('${'), $._expr, optional(choice(':?', seq(':', $.format_spec))), '}'),
+    // [[fill]align][+][0][width][.prec][type]; the fill may be `:` (`${s::>5}`)
+    format_spec: () => token.immediate(/[^}"\n]+/),
 
     identifier: () => /[A-Za-z_][A-Za-z0-9_]*/,
   },
