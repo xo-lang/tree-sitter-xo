@@ -52,7 +52,7 @@
   },
   "scripts": {
     "install": "node-gyp-build",
-    "test": "tree-sitter test",
+    "test": "tree-sitter test && bash scripts/nul-bytes-test.sh",
     "build": "tree-sitter generate"
   }
 }

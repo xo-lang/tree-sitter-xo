@@ -90,5 +90,6 @@ clean:
 
 test:
 	$(TS) test
+	bash scripts/nul-bytes-test.sh
 
 .PHONY: all install uninstall clean test
